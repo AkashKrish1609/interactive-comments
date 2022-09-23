@@ -81,10 +81,11 @@ async function theData(){
 
 
             repliesDiv.appendChild(interactive)
-            
-            interactive.innerHTML = ` <ul>
+            if(element.user.username === data.currentUser.username){
+                interactive.innerHTML = ` <ul>
             <li><img src="${element.user.image.png}"></li>
             <li>${element.user.username}</li>
+            <li class="you">you</li>
             <li>${element.createdAt}</li>
            </ul>
            <div class="reply-para">
@@ -92,14 +93,37 @@ async function theData(){
            </div>
             <div class="reply-likes-div">
             <div class="btn-div">
-            <span class="plus" >+</span>
+            <span class="plus no-event" >+</span>
             <span class="numbr-space">${element.score}</span>
-            <span class="minus">-</span>
+            <span class="minus no-event">-</span>
             </div>
-           <div class="reply-btn-div">
-           <button class="reply-btn"><img src="./images/icon-reply.svg" alt="" class="reply-img">Reply</button>
-           </div>
+            <div class="delete-edit">
+            <button class="delete"><img src="./images/icon-delete.svg" alt="" class="delete-img">Delete</button>
+            <button class="edit"><img src="./images/icon-edit.svg" alt="" class="edit-img">Edit</button>
+            </div>
            </div>`;
+            }else{
+                interactive.innerHTML = ` <ul>
+                <li><img src="${element.user.image.png}"></li>
+                <li>${element.user.username}</li>
+                <li>${element.createdAt}</li>
+               </ul>
+               <div class="reply-para">
+               <p>${element.content}</p>
+               </div>
+                <div class="reply-likes-div">
+                <div class="btn-div">
+                <span class="plus" >+</span>
+                <span class="numbr-space">${element.score}</span>
+                <span class="minus">-</span>
+                </div>
+               <div class="reply-btn-div">
+               <button class="reply-btn"><img src="./images/icon-reply.svg" alt="" class="reply-img">Reply</button>
+               </div>
+               </div>`;
+            }
+            
+           
 
            let replying = document.querySelector(`.${comment.user.username}`)
            replying.appendChild(repliesDiv)
@@ -122,7 +146,6 @@ async function theData(){
         
           form.addEventListener("submit", function(e){
             e.preventDefault()
-            console.log(forms);
             if(form.classList.contains("first-form")){
             
             let closestAddComment = e.target.closest(".add-comment")
@@ -149,9 +172,9 @@ async function theData(){
            </div>
             <div class="reply-likes-div">
             <div class="btn-div">
-            <span class="plus" >+</span>
+            <span class="plus no-event" >+</span>
             <span class="numbr-space">0</span>
-            <span class="minus">-</span>
+            <span class="minus no-event">-</span>
             </div>
            <div class="delete-edit">
            <button class="delete"><img src="./images/icon-delete.svg" alt="" class="delete-img">Delete</button>
@@ -291,9 +314,9 @@ async function theData(){
            </div>
             <div class="reply-likes-div">
             <div class="btn-div">
-            <span class="plus" >+</span>
+            <span class="plus no-event" >+</span>
             <span class="numbr-space">0</span>
-            <span class="minus">-</span>
+            <span class="minus no-event">-</span>
             </div>
            <div class="delete-edit">
            <button class="delete"><img src="./images/icon-delete.svg" alt="" class="delete-img">Delete</button>

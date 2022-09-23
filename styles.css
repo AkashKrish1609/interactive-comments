@@ -204,3 +204,7 @@ li > img{
 .new-hide{
     display: none;
 }
+
+.no-event{
+    pointer-events: none;
+}
