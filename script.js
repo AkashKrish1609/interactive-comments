@@ -58,7 +58,7 @@ async function theData(){
        addComment.setAttribute("dataset", `${comment.user.username}`)
        addComment.classList.add("hide")
    
-       addComment.innerHTML = `<form><label for=""><img src="${userPhoto}" alt="" class="user-photo"></label>
+       addComment.innerHTML = `<form class="first-form"><label for=""><img src="${userPhoto}" alt="" class="user-photo"></label>
        <textarea name="" id="" cols="30" rows="5"></textarea>
        <button type="submit" class="comment-reply-btn">REPLY</button></form>`;
    
@@ -68,7 +68,6 @@ async function theData(){
 
        if(comment.replies.length !== 0 ){
         let replyArray = comment.replies;
-        console.log(replyArray);
         let repliesDiv = document.createElement("div")
         repliesDiv.setAttribute("class", "replies-div")
 
@@ -82,9 +81,7 @@ async function theData(){
 
 
             repliesDiv.appendChild(interactive)
-
             
-
             interactive.innerHTML = ` <ul>
             <li><img src="${element.user.image.png}"></li>
             <li>${element.user.username}</li>
@@ -117,29 +114,71 @@ async function theData(){
     
     
 
-    let forms = document.querySelectorAll("form")
+    let forms = document.querySelectorAll("form.first-form")
+    
+
     forms.forEach(function(form){
-        form.addEventListener("submit", function(e){
+        
+        
+          form.addEventListener("submit", function(e){
             e.preventDefault()
+            console.log(forms);
+            if(form.classList.contains("first-form")){
+            
+            let closestAddComment = e.target.closest(".add-comment")
             e.target.closest(".add-comment").classList.toggle("hide")
             let text = e.target.closest("form").childNodes[2].value;
 
             let userPost = document.createElement("div")
             userPost.setAttribute("class", "post-container")
 
-             obj = {
-                score: 0,
-                content: text,
+            let date = new Date();
+            let reqDate = date.toLocaleString("en-US", {  
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',});
 
-            }
-
-            data.comments[0].replies.push(obj)
-            console.log(data);
+            userPost.innerHTML = ` <ul>
+            <li><img src="${data.currentUser.image.png}" class="user-image"></li>
+            <li>${data.currentUser.username}</li>
+            <li>you</li>
+            <li>${reqDate}</li>
+           </ul>
+           <div class="reply-para">
+           <p>${text}</p>
+           </div>
+            <div class="reply-likes-div">
+            <div class="btn-div">
+            <span class="plus" >+</span>
+            <span class="numbr-space">0</span>
+            <span class="minus">-</span>
+            </div>
+           <div class="delete-edit">
+           <button class="delete"><img src="./images/icon-delete.svg" alt="" class="delete-img">Delete</button>
+           <button class="edit"><img src="./images/icon-edit.svg" alt="" class="edit-img">Edit</button>
+           </div>
+           </div>`
+           let only = document.querySelector(".replies-div")
+           if(closestAddComment.nextSibling !== null){
+            closestAddComment.nextSibling.appendChild(userPost)
+           }else if(closestAddComment.nextSibling === null){
             
-          
+            let again = document.createElement("div")
+            again.setAttribute("class", "replies-div")
+            closestAddComment.parentElement.appendChild(again)
+            again.appendChild(userPost)
+           }
+
+           
+           e.target.closest("form").childNodes[2].value = "";
+           
+        }
             
         })
+    
     })
+
+
 
 
     
@@ -178,7 +217,6 @@ async function theData(){
     let replyButtons = document.querySelectorAll(`.reply-btn`)
     replyButtons.forEach(function(btn){
      btn.addEventListener("click", function(e){
-        console.log();
         if(btn.parentElement.parentElement.classList.contains("reply-div")){
          let closest = e.target.closest(".comment-card").id
        
@@ -190,29 +228,89 @@ async function theData(){
         }else {
             let magicCard = e.target.closest(".interactive");
             let parentDiv = magicCard.parentNode;
-            // console.log(magicCard.nextElementSibling);
             let repliesHidden = document.createElement("div")
             repliesHidden.setAttribute("class", "hidden-replies")
-            // repliesHidden.classList.add("hide")
-
-            repliesHidden.innerHTML = `<label for=""><img src="${userPhoto}" alt="" class="user-photo"></label>
+            
+            repliesHidden.innerHTML = `<form class="reply-form"><label for=""><img src="${userPhoto}" alt="" class="user-photo"></label>
             <textarea name="" id="" cols="30" rows="5"></textarea>
-            <button type="submit" class="comment-reply-btn">REPLY</button>`
+            <button type="submit" class="comment-reply-btn">REPLY</button></form>`
             if(magicCard.nextElementSibling === null || magicCard.nextSibling.classList.contains("interactive") === true ){
 
 
                 parentDiv.insertBefore(repliesHidden, magicCard.nextSibling);
                 
-            }else {
-                magicCard.nextElementSibling.classList.toggle("new-hide") 
+                
+            }else if(magicCard.nextSibling.classList.contains("hidden-replies") === true){
+                
+                magicCard.nextSibling.classList.toggle("new-hide")
                
             }
+            else{
+                parentDiv.insertBefore(repliesHidden, magicCard.nextSibling);
+            }
 
+            theForm ()
+            
         }
+
+        
+        })
+
+    })
+
+  function theForm (){
+    let replyForms = document.querySelectorAll(".reply-form")
+    
+    replyForms.forEach(function(replyForm){
+         replyForm.addEventListener("submit",  function(e){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            
+            
+            let closestHiddenReplies = e.target.closest(".hidden-replies") ;
+            closestHiddenReplies.classList.toggle("new-hide")
+            let reqData = e.target.closest("form").childNodes[2].value;
+
+            let AnotheruserPost = document.createElement("div")
+            AnotheruserPost.setAttribute("class", "post-container")
+
+            let theDate = new Date();
+            let requiredDate = theDate.toLocaleString("en-US", {  
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',});
+
+            AnotheruserPost.innerHTML = ` <ul>
+            <li><img src="${data.currentUser.image.png}" class="user-image"></li>
+            <li>${data.currentUser.username}</li>
+            <li>you</li>
+            <li>${requiredDate}</li>
+           </ul>
+           <div class="reply-para">
+           <p>${reqData}</p>
+           </div>
+            <div class="reply-likes-div">
+            <div class="btn-div">
+            <span class="plus" >+</span>
+            <span class="numbr-space">0</span>
+            <span class="minus">-</span>
+            </div>
+           <div class="delete-edit">
+           <button class="delete"><img src="./images/icon-delete.svg" alt="" class="delete-img">Delete</button>
+           <button class="edit"><img src="./images/icon-edit.svg" alt="" class="edit-img">Edit</button>
+           </div>
+           </div>`
+            closestHiddenReplies.parentNode.appendChild(AnotheruserPost)
+            
+           e.target.closest("form").childNodes[2].value = "";
+       
+           
         })
     })
 
-
+}
+  
+    
     
 }
 

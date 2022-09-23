@@ -148,8 +148,31 @@ li > img{
     align-items: center;
 }
 
-.check{
-    outline: 1px solid red;
+.post-container{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin: 2%;
+    color: hsl(211, 10%, 45%);
+    flex: 100;
+
+}
+.post-container>ul{
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2%;
+    padding: .5rem;
+    height: 30%;
+}
+.post-container>ul>li:nth-child(2){
+    color: hsl(212, 24%, 26%);
+    font-weight: 700;
+}
+
+.reply-para{
+    padding: .5rem;
 }
 
 .add-comment{
