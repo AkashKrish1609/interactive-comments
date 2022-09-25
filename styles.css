@@ -13,6 +13,8 @@ body{
 }
 p{
     padding-inline: 1rem .5rem;
+    word-break: break-all;
+    
 }
 textarea{
     outline: none;
@@ -308,9 +310,7 @@ padding: 1rem;
     height: 2.5rem;
 }
 
-.new-hide{
-    display: none;
-}
+
 
 .no-event{
     pointer-events: none;
@@ -441,8 +441,18 @@ padding: 1rem;
     gap: 5px;
 }
 
+.you-list{
+    background-color: hsl(238, 40%, 52%);
+    color: white;
+    padding: 0 10px;
+    border-radius: .1rem;
+}
 
 
 .hide{
+    display: none;
+}
+
+.new-hide{
     display: none;
 }

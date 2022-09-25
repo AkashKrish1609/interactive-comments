@@ -91,7 +91,7 @@ async function theData(){
                 interactive.innerHTML = ` <ul>
             <li><img src="${element.user.image.png}"></li>
             <li>${element.user.username}</li>
-            <li class="you">you</li>
+            <li class="you-list">you</li>
             <li>${element.createdAt}</li>
            </ul>
            <div class="reply-para">
@@ -170,7 +170,7 @@ async function theData(){
             userPost.innerHTML = ` <ul>
             <li><img src="${data.currentUser.image.png}" class="user-image"></li>
             <li>${data.currentUser.username}</li>
-            <li>you</li>
+            <li class="you-list">you</li>
             <li>${reqDate}</li>
            </ul>
            <div class="reply-para">
@@ -362,7 +362,7 @@ async function theData(){
    `<ul>
     <li><img src="${data.currentUser.image.png}" class="user-image"></li>
     <li>${data.currentUser.username}</li>
-    <li>you</li>
+    <li class="you-list">you</li>
     <li>${requiredDate}</li>
    </ul>
    <div class="reply-para">
