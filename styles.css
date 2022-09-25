@@ -5,30 +5,49 @@
 }
 body{
     min-height: 100vh;
-    padding: 10% 0;
+    padding:  min(4rem,2%) 0;
+    margin: 0;
     font-family: 'Rubik', sans-serif;
     background-color: hsl(228, 33%, 97%);
+    line-height: 1.5rem;
 }
-
+p{
+    padding-inline: 1rem .5rem;
+}
+textarea{
+    outline: none;
+    border: none;
+    resize: none;
+    
+}
 button{
     font-family: 'Rubik', sans-serif;
     color: hsl(238, 40%, 52%);
     font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    border: none;
 }
+button:hover{
+opacity: .7;
+
+}
+
 .container{
-    margin: auto;
+    margin:  auto;
     min-height: 500px;
     height: auto;
     width: 90vw;
     background-color: hsl(228, 33%, 97%);
     display: grid;
     grid-template-columns: 1fr;
+    max-width: 900px;
 }
-
 
 .comment-card{
     display: grid;
-    grid-template-columns: 1fr;
+    height: auto;
+    max-width: 900px;
 }
 
 .comment{
@@ -36,8 +55,11 @@ button{
     display: flex;
     flex-direction: column;
     background-color: white;
-    margin: 2%;
-    
+    margin-inline: auto;
+    margin-block: min(2%, .5rem);
+    border-radius: .5rem;
+    max-width: 900px; 
+    height: 90%; 
 }
 
 .comment >.details{
@@ -46,7 +68,7 @@ button{
     justify-content: flex-start;
     align-items: center;
     gap: 2%;
-    padding: .5rem;
+    margin: .5rem 1rem ;
     height: 30%;
 
 }
@@ -57,7 +79,7 @@ button{
 }
 
 .comment >.comment-para{
-    padding: .5rem;
+    height: auto;
 }
 
 li > img{
@@ -69,6 +91,8 @@ li > img{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-inline: 1rem;
+    
 }
 .plus,.minus{
     border: none;
@@ -78,7 +102,7 @@ li > img{
   }
   .btn-div{
     color: black;
-    margin: 1rem .5rem;
+    margin: 1rem 0;
     display: inline-block;
     background-color: hsl(228, 33%, 97%);
   }
@@ -101,13 +125,51 @@ li > img{
     margin: 1rem;
 }
 
+@media (min-width: 500px){
+
+}
+
+/*main-form-section*/
+.main-post-container>form{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 90%;
+    margin: 0 auto;
+}
+.main-post-container>form>textarea{
+grid-area: 1 / 1;
+grid-column: span 2;
+width: 100%;
+margin: 0 auto;
+border-radius: .5rem;
+outline: 1px solid black;
+padding: 1rem;
+}
+.main-post-container>form>label{
+   margin-top: .5rem;
+}
+.main-post-container>form>label>img{
+    height: 3rem;
+ }
+
+.send-btn{
+    outline: none;
+    border: none;
+    color: white;
+    background-color: hsl(238, 40%, 52%);
+    padding: 0 1.5rem;
+    border-radius: .5rem;
+    margin-block: .5rem;
+    margin-left: auto;
+    
+}
+
 /*replies-section*/
 .replies-div{
     border-left: 3px solid hsl(223, 19%, 93%);
     margin: 1rem 0;
-    min-height: 500px;
     height: auto;
-    width: 85vw;
+    width: 100%;
     background-color: hsl(228, 33%, 97%);
     display: flex;
     flex-direction: column;
@@ -120,9 +182,13 @@ li > img{
     display: flex;
     flex-direction: column;
     background-color: white;
-    margin: 2%;
+    margin-left: 2rem;
+    margin-block: 2%;
     color: hsl(211, 10%, 45%);
     flex: 100;
+    height: auto;
+    border-radius: .5rem;
+    
 }
 
 .interactive>ul{
@@ -131,11 +197,10 @@ li > img{
     justify-content: flex-start;
     align-items: center;
     gap: 2%;
-    padding: .5rem;
+    margin-left: 1rem;
+    margin-block: .5rem;
     height: 30%;
 }
-
-
 
 .interactive>ul>li:nth-child(2){
     color: hsl(212, 24%, 26%);
@@ -146,16 +211,23 @@ li > img{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: .5rem 1rem;
 }
 
+
+/*-----user-add comment----*/
 .post-container{
     display: flex;
     flex-direction: column;
     background-color: white;
-    margin: 2%;
+    margin-left: 2rem;
+    margin-block: 2%;
     color: hsl(211, 10%, 45%);
     flex: 100;
+    border-radius: .5rem;
+    
 
+    
 }
 .post-container>ul{
     list-style: none;
@@ -172,33 +244,68 @@ li > img{
 }
 
 .reply-para{
-    padding: .5rem;
+    min-height: 3rem;
+    height: auto;
 }
 
-.add-comment{
-    margin: 1rem;
-    width: 90%;
-    background-color: white;
+/*----when given comments reply----*/
+
+.add-comment,.hidden-replies{
+    margin-block: 0 1rem ;
+    width: 100%;
+    background-color: hsl(228, 33%, 97%);
     display: flex;
     align-items: flex-start;
     gap: 1rem;
+ 
 }
 
-.hide{
-    display: none;
+.hidden-replies{
+    margin-block: .5rem;
+    width: 96%;
+    margin-left: auto;
+}
+
+.add-comment>form, .hidden-replies>form{
+    padding-inline: 1rem;
+    background-color: white;
+    
+    border-radius: .5rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    
+}
+.hidden-replies>form{
+    margin-left: auto;
+    width: 100%;
+}
+
+.add-comment>form>textarea , .hidden-replies>form>textarea{
+    grid-area: 1 / 1;
+    grid-column: span 2;
+    margin-block: .5rem;
+    border-radius: .5rem;
+    padding-left: .5rem;
+    padding-top: .5rem;
+    outline: 1px solid hsl(211, 10%, 45%);
+}
+
+.add-comment>form>label,.hidden-replies>form>label{
+    margin-block: .5rem 0;
+}
+
+.add-comment>form>button, .hidden-replies>form>button{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
 }
 
 .user-photo{
     height: 2.5rem;
-}
-
-.hidden-replies{
-    margin: 1rem;
-    width: 90%;
-    background-color: white;
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
 }
 
 .new-hide{
@@ -207,4 +314,135 @@ li > img{
 
 .no-event{
     pointer-events: none;
+}
+
+.user-comment-card{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin: 2%;
+    color: hsl(211, 10%, 45%);
+    border-radius: .5rem;
+}
+
+.user-comment-card > ul{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    margin: 1rem;
+    
+}
+.user-comment-card>ul>li:nth-child(2){
+    color: hsl(212, 24%, 26%);
+    font-weight: 700;
+}
+.user-comment-card>.reply-para{
+    margin: .5rem;
+    
+}
+
+
+
+.alert-delete{
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,.473);
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.appearing-del-div{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: white;
+    border-radius: .5rem;
+    height: auto;
+    width: 400px;
+    margin: auto;
+    padding: 1.5rem ;
+    text-align: left;
+}
+
+.appearing-del-div>p{
+    padding: 0;
+}
+
+.appearing-buttons{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.appearing-buttons>button{
+    padding: 1rem 2rem;
+    border-radius: .5rem;
+}
+
+.cancel{
+    background-color :hsl(211, 10%, 45%) ;
+    color: white;
+}
+
+.del{
+    background-color :hsl(358, 79%, 66%) ;
+    color: white;
+}
+
+.update-div{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-block: 2rem 0;
+}
+
+.update-btn{
+    background-color: hsl(238, 40%, 52%);
+    color: white;
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+}
+
+.delete-edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+}
+
+.delete{
+    background-color: white;
+    color: hsl(358, 79%, 66%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    
+}
+
+.edit{
+    background-color: white;
+    color: hsl(238, 40%, 52%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+
+
+.hide{
+    display: none;
 }

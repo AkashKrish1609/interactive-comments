@@ -1,15 +1,21 @@
 let container = document.querySelector(".container");
 let replyingToName,mainData;
-  
+let userAddComment = document.querySelector(".main-post-container");
 
 async function theData(){
     const response = await fetch("data.json");
     let data = await response.json();
     let comments = data.comments;
     let userPhoto = data.currentUser.image.png;
-    let obj;
+    userAddComment.innerHTML = `
+    <form class="main-form">
+    <label for=""><img src="${data.currentUser.image.png}" alt="" class="user-photo"></label>
+    <textarea name="" id="" cols="30" rows="5" required placeholder="Add a comment.."></textarea>
+    <button type="submit" class="send-btn">SEND</button>
+    </form>`
 
     comments.forEach(function (comment){
+        
 
         let commentCard = document.createElement("div")
         commentCard.setAttribute("class", "comment-card")
@@ -30,7 +36,7 @@ async function theData(){
         likes.setAttribute("class", "reply-div");
         var likesDiv = document.querySelector(".reply-div");
        
-        container.appendChild(commentCard)
+        container.insertBefore(commentCard, userAddComment)
         commentCard.appendChild(newDiv)
         newDiv.appendChild(details)
         newDiv.appendChild(commentPara)
@@ -41,7 +47,7 @@ async function theData(){
                             "<li>"+ comment.user.username + "</li>"+
                             "<li>"+ comment.createdAt +"</li>";
         
-        commentPara.innerHTML = "<p>"+ comment.content + "</p>";
+        commentPara.innerHTML = `<p>${comment.content}</p>`;
         
         let commentScore = comment.score;
         
@@ -59,8 +65,8 @@ async function theData(){
        addComment.classList.add("hide")
    
        addComment.innerHTML = `<form class="first-form"><label for=""><img src="${userPhoto}" alt="" class="user-photo"></label>
-       <textarea name="" id="" cols="30" rows="5"></textarea>
-       <button type="submit" class="comment-reply-btn">REPLY</button></form>`;
+       <textarea name="" id="" cols="30" rows="5" required placeholder="Add a comment.."></textarea>
+       <button type="submit" class="comment-reply-btn"><img src="./images/icon-reply.svg" alt="" class="reply-img">REPLY</button></form>`;
    
        commentCard.appendChild(addComment)
 
@@ -194,10 +200,12 @@ async function theData(){
 
            
            e.target.closest("form").childNodes[2].value = "";
-           
+           deleteFunction();
+           editFunction();
         }
             
         })
+        
     
     })
 
@@ -255,8 +263,8 @@ async function theData(){
             repliesHidden.setAttribute("class", "hidden-replies")
             
             repliesHidden.innerHTML = `<form class="reply-form"><label for=""><img src="${userPhoto}" alt="" class="user-photo"></label>
-            <textarea name="" id="" cols="30" rows="5"></textarea>
-            <button type="submit" class="comment-reply-btn">REPLY</button></form>`
+            <textarea name="" id="" cols="30" rows="5" required placeholder="Add a comment.."></textarea>
+            <button type="submit" class="comment-reply-btn"><img src="./images/icon-reply.svg" alt="" class="reply-img">REPLY</button></form>`
             if(magicCard.nextElementSibling === null || magicCard.nextSibling.classList.contains("interactive") === true ){
 
 
@@ -273,6 +281,7 @@ async function theData(){
             }
 
             theForm ()
+            
             
         }
 
@@ -327,14 +336,171 @@ async function theData(){
             
            e.target.closest("form").childNodes[2].value = "";
        
-           
+           deleteFunction();
+           editFunction();
         })
     })
 
 }
-  
+  let mainForm = document.querySelector(".main-form")
+  mainForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    let closestPC =  e.target.closest(".main-post-container")
+    let reqText = e.target.closest("form").childNodes[3].value
+
+    let newCommentCard = document.createElement("div")
+    newCommentCard.setAttribute("class", "user-comment-card")
+
     
+    let theDate = new Date();
+    let requiredDate = theDate.toLocaleString("en-US", {  
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',});
+
+    newCommentCard.innerHTML =
+   `<ul>
+    <li><img src="${data.currentUser.image.png}" class="user-image"></li>
+    <li>${data.currentUser.username}</li>
+    <li>you</li>
+    <li>${requiredDate}</li>
+   </ul>
+   <div class="reply-para">
+   <p>${reqText}</p>
+   </div>
+    <div class="reply-likes-div">
+    <div class="btn-div">
+    <span class="plus no-event" >+</span>
+    <span class="numbr-space">0</span>
+    <span class="minus no-event">-</span>
+    </div>
+   <div class="delete-edit">
+   <button class="delete"><img src="./images/icon-delete.svg" alt="" class="delete-img">Delete</button>
+   <button class="edit"><img src="./images/icon-edit.svg" alt="" class="edit-img">Edit</button>
+   </div>
+   </div>`
+
+   container.insertBefore(newCommentCard, userAddComment )
+   e.target.closest("form").childNodes[3].value = "";
+   deleteFunction();
+   editFunction();
+  })
+
+/*-----delete--function----*/
+function deleteFunction(){
+    let alert = document.createElement("div")
+    alert.setAttribute("class", "alert-delete")
+    alert.classList.add("hide")
+    alert.innerHTML = `
+    <div class="appearing-del-div">
+    <h2>Delete Comment</h2>
+    <p>Are you sure you want to delete this comment? This will remove the comment and can't be undone.</p>
+    <div class="appearing-buttons">
+    <button class="cancel">NO, CANCEL</button>
+    <button class="del">YES, DELETE</button>
+    </div>
+    </div>`
     
+  let delButtons = document.querySelectorAll(".delete")
+  delButtons.forEach(function(btn){
+    btn.addEventListener("click", function(e){
+        console.log(e);
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        if(container.lastElementChild.classList.contains("alert-delete") === false){
+            container.insertBefore(alert, userAddComment.nextSibling)
+            alert.classList.remove("hide")
+        }else if(container.lastElementChild.classList.contains("alert-delete") === true){
+            container.lastElementChild.classList.remove("hide")
+            console.log("hello");
+        }
+
+        let cancelButtons = document.querySelectorAll(".cancel")
+        cancelButtons.forEach(function(cancelButton){
+            cancelButton.addEventListener("click", function(event){
+                e.preventDefault()
+                e.stopImmediatePropagation()
+                alert.classList.add("hide")
+                
+            })
+        })
+        let deleteButtons = document.querySelectorAll(".del")
+        deleteButtons.forEach(function(deleteButton){
+            deleteButton.addEventListener("click", function(){
+            e.preventDefault()
+            e.stopImmediatePropagation()
+            e.path[3].remove()
+            alert.classList.add("hide")
+            })
+
+        })
+
+        
+
+    })
+  })
+    
+}
+deleteFunction()
+
+/*-----edit--function----*/
+function editFunction(){
+    let editButtons = document.querySelectorAll(".edit")
+
+    let updateBtn = document.createElement("div")
+    updateBtn.setAttribute("class", "update-div")
+    updateBtn.classList.add("hide")
+
+    updateBtn.innerHTML= `<button class="update-btn">UPDATE</button>`
+    editButtons.forEach(function(editButton){
+        editButton.addEventListener("click", function(e){
+            e.preventDefault()
+            e.stopImmediatePropagation()
+
+            let editablePara = e.path[3].children[1]
+            let reqParent = e.path[3];
+            let reqBefore = e.path[2];
+            const final = Array.from(e.path).filter(it =>it.localName == "div" && it.className == "user-comment-card" || it.localName == "div" && it.className == "post-container" || it.localName == "div" && it.className == "interactive")
+            let paths =Array.from(e.path) ;
+            paths.forEach(function(reqPath){
+                if(reqPath?.classList?.contains("user-comment-card") === true || reqPath?.classList?.contains("post-container") === true || reqPath?.classList?.contains("interactive") === true){
+                   let focusReplyPara =  Array.from(reqPath.children).filter(it =>it.localName == "div" && it.className == "reply-para")
+                   focusReplyPara[0].setAttribute("contenteditable", "true")
+                   focusReplyPara[0].focus()
+                   let focusReplyPara1 =  Array.from(reqPath.children).filter(it =>it.localName == "div" && it.className == "reply-likes-div")
+                   let reqFinal = Array.from(e.path).filter(it =>it.localName === "div" && it.className === "user-comment-card")
+                   
+                   if(focusReplyPara[0].nextElementSibling.classList.contains("reply-likes-div")){
+                    final[0].insertBefore(updateBtn, focusReplyPara1[0]) 
+                    updateBtn.classList.remove("hide")
+                    
+                }else{
+                    updateBtn.classList.remove("hide")
+                   
+                }
+                }  
+            })
+            
+            
+            let updateButtons = document.querySelectorAll(".update-btn")
+            
+            updateButtons.forEach(function(updateButton){
+                updateButton.addEventListener("click", function(){
+                    e.preventDefault()
+                    e.stopImmediatePropagation()
+                    updateBtn.classList.add("hide")
+                    editablePara.removeAttribute("contenteditable", "true")
+                    editablePara.blur()
+                })
+            })
+
+        })
+    })
+
+
+}
+editFunction()
+
 }
 
 theData();
