@@ -80,8 +80,7 @@ async function theData(){
 
 
         replyArray.forEach(function(element){
-            
-
+           
             let interactive = document.createElement("div")
             interactive.setAttribute("class","interactive");
 
@@ -95,7 +94,7 @@ async function theData(){
             <li>${element.createdAt}</li>
            </ul>
            <div class="reply-para">
-           <p>${element.content}</p>
+           <p><span class="replying-to">@${element.replyingTo}&nbsp;&nbsp;</span>${element.content}</p>
            </div>
             <div class="reply-likes-div">
             <div class="btn-div">
@@ -115,7 +114,7 @@ async function theData(){
                 <li>${element.createdAt}</li>
                </ul>
                <div class="reply-para">
-               <p>${element.content}</p>
+               <p><span class="replying-to">@${element.replyingTo}&nbsp;&nbsp;</span>${element.content}</p>
                </div>
                 <div class="reply-likes-div">
                 <div class="btn-div">
@@ -151,13 +150,14 @@ async function theData(){
         
         
           form.addEventListener("submit", function(e){
+            
             e.preventDefault()
             if(form.classList.contains("first-form")){
             
             let closestAddComment = e.target.closest(".add-comment")
             e.target.closest(".add-comment").classList.toggle("hide")
             let text = e.target.closest("form").childNodes[2].value;
-
+            
             let userPost = document.createElement("div")
             userPost.setAttribute("class", "post-container")
 
@@ -174,7 +174,7 @@ async function theData(){
             <li>${reqDate}</li>
            </ul>
            <div class="reply-para">
-           <p>${text}</p>
+           <p><span class="replying-to">@${closestAddComment.parentElement.id}&nbsp;&nbsp;</span>${text}</p>
            </div>
             <div class="reply-likes-div">
             <div class="btn-div">
@@ -319,7 +319,7 @@ async function theData(){
             <li>${requiredDate}</li>
            </ul>
            <div class="reply-para">
-           <p>${reqData}</p>
+           <p><span class="replying-to">@ramsesmiron&nbsp;&nbsp;</span>${reqData}</p>
            </div>
             <div class="reply-likes-div">
             <div class="btn-div">
